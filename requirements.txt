@@ -5,3 +5,4 @@ six
 allure-pytest
 pywinauto
 parse
+pyunpack
