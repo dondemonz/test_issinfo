@@ -4,3 +4,4 @@ pytest
 six
 allure-pytest
 pywinauto
+parse
