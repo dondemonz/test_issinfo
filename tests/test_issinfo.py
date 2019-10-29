@@ -17,7 +17,7 @@ def test_only_full_dumps():
     dlg = app.window(title='ISSInfo')
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
-    assert value == working_dirrectory
+    assert value == working_dirrectory or value == working_dirrectory_jenkins
     #print("connected")
     dlg2 = dlg.child_window(auto_id="1009")
     value2 = dlg2.get_toggle_state()
@@ -81,6 +81,8 @@ def test_additional_databases():
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
+    #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
+    copyfile(working_dirrectory_jenkins, working_dirrectory)
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"input data that is passed to subprocess' stdin")
@@ -107,6 +109,8 @@ def test_size_of_postgress_logs():
     print("Directory size: " + str(total_size))
     assert total_size < 1000000
     shutil.rmtree(path_to_archive)
+
+
 
 """
     PROCNAME = "ServerControlAgent.exe"
