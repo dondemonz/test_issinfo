@@ -1,0 +1,117 @@
+from pywinauto.application import Application
+from model.input_data import *
+import time
+import os
+from shutil import copyfile
+import pytest
+from subprocess import Popen, PIPE
+from parse import *
+from pyunpack import Archive
+import shutil
+
+
+def test_only_full_dumps():
+    # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
+    app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    #app = Application().connect(title='Server Control Agent')
+    dlg = app.window(title='ISSInfo')
+    dlg1 = dlg.child_window(auto_id="1003")
+    value = dlg1.get_value()
+    assert value == working_dirrectory
+    #print("connected")
+    dlg2 = dlg.child_window(auto_id="1009")
+    value2 = dlg2.get_toggle_state()
+    assert value2 == 1
+    dlg3 = dlg.child_window(auto_id="1011")
+    value3 = dlg3.get_toggle_state()
+    assert value3 == 0
+    dlg4 = dlg.child_window(auto_id="1010")
+    value4 = dlg4.get_toggle_state()
+    assert value4 == 0
+    dlg.Пуск.click()
+    #dlg.child_window(auto_id="1001").click()
+    #dlg5 = dlg.child_window(auto_id="TitleBar")
+    time.sleep(250)
+    #dlg5.wait('visible', timeout=380)
+    #dlg5.child_window(auto_id="1012").click()
+    new_dlg = app.top_window()
+    new_dlg.Открытьдиректорию.click()
+    time.sleep(1)
+    app1 = Application().connect(title="C:\\Devel\\issinfo_exe\\tests")
+    time.sleep(1)
+    window = app1.window(title="C:\\Devel\\issinfo_exe\\tests")
+    time.sleep(1)
+    window.close()
+    #new_dlg.OK.Click()
+    dlg.close()
+
+
+
+def test_delete_dumps():
+    app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    #app = Application(backend="uia").connect(title='ISSInfo')
+    dlg = app.window(title='ISSInfo')
+    dlg2 = dlg.child_window(auto_id="1011")
+    #как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
+    dlg2.click()
+    copyfile(dump_to_copy, path_to_copy)
+    time.sleep(5)
+    dlg.Пуск.click()
+    time.sleep(350)
+    if os.path.isfile(path_to_copy):
+        pytest.fail("File is not deleted")
+    os.path.exists(path_to_copy)
+    print("File is deleted")
+    time.sleep(1)
+    app = Application(backend="uia").connect(path=path)
+    new_dlg = app.top_window()
+    new_dlg.OK.click()
+    dlg.close()
+
+
+def test_additional_databases():
+    app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    # app = Application(backend="uia").connect(title='ISSInfo')
+    dlg = app.window(title='ISSInfo')
+    dlg2 = dlg.child_window(auto_id="1010")
+    # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
+    dlg2.click()
+    dlg.Пуск.click()
+    time.sleep(250)
+    new_dlg = app.top_window()
+    new_dlg.OK.click()
+    dlg.close()
+    # проверка, есть ли доп. база postgres в issinfo
+    p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+    rc = p.returncode
+    # d - список всех файлов в issinfo
+    d = output.decode('utf-8')
+    if not "protocol.sql" in d:
+        pytest.fail("protocol.sql is not in issinfo")
+    else:
+        print("protocol.sql is in issinfo")
+
+def test_size_of_postgress_logs():
+    if not os.path.exists(path_to_archive):
+        os.makedirs(path_to_archive)
+    time.sleep(2)
+    Archive(working_dirrectory).extractall(path_to_archive)
+    time.sleep(10)
+    total_size = 0
+
+    for path, dirs, files in os.walk(path_to_postgress_logs):
+        for f in files:
+            fp = os.path.join(path, f)
+            total_size += os.path.getsize(fp)
+    print("Directory size: " + str(total_size))
+    assert total_size < 1000000
+    shutil.rmtree(path_to_archive)
+
+"""
+    PROCNAME = "ServerControlAgent.exe"
+    for proc in psutil.process_iter():
+        # check whether the process name matches
+        if proc.name() == PROCNAME:
+            proc.kill()
+"""
