@@ -9,7 +9,7 @@ from parse import *
 from pyunpack import Archive
 import shutil
 import pywinauto
-
+import patoolib
 
 def test_only_full_dumps():
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
@@ -104,7 +104,8 @@ def test_size_of_postgress_logs():
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-    Archive(working_dirrectory).extractall(path_to_archive)
+    patoolib.extract_archive(working_dirrectory, outdir=path_to_archive)
+    #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(10)
     total_size = 0
 
