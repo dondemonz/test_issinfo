@@ -39,21 +39,17 @@ def test_only_full_dumps():
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
     try:
-        app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests - issinfo")
+        app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
     except pywinauto.findwindows.ElementNotFoundError:
         app1 = Application().connect(title="C:\\Devel\\test_issinfo\\tests")
-
-    time.sleep(1)
-    try:
-        window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests - issinfo")
-    except pywinauto.findwindows.ElementNotFoundError:
         window = app1.window(title="C:\\Devel\\test_issinfo\\tests")
+    else:
+        window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
 
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
     dlg.close()
-
 
 
 def test_delete_dumps():
