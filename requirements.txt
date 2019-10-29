@@ -6,3 +6,4 @@ allure-pytest
 pywinauto
 parse
 pyunpack
+patoolib
