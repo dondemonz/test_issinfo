@@ -38,6 +38,7 @@ def test_only_full_dumps():
     new_dlg = app.top_window()
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
+    # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
     try:
         app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
     except pywinauto.findwindows.ElementNotFoundError:
