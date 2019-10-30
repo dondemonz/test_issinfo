@@ -6,7 +6,7 @@ from shutil import copyfile
 import pytest
 from subprocess import Popen, PIPE
 from parse import *
-from pyunpack import Archive
+#from pyunpack import Archive
 import shutil
 import pywinauto
 import patoolib
