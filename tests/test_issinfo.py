@@ -13,7 +13,9 @@ import patoolib
 
 def test_only_full_dumps():
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
-    app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    app = Application(backend="uia").start(path)
+    time.sleep(2)
+    app.connect(title='ISSInfo')
     #app = Application().connect(title='Server Control Agent')
     dlg = app.window(title='ISSInfo')
     dlg1 = dlg.child_window(auto_id="1003")
@@ -51,6 +53,13 @@ def test_only_full_dumps():
     window.close()
     #new_dlg.OK.Click()
     dlg.close()
+
+#тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
+def test_login_client():
+    app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
+    app1.window_().Edit2.type_keys("securos")
+    app1.window_().Авторизоваться.click()
+    #app1.window().print_control_identifiers()
 
 
 def test_delete_dumps():
