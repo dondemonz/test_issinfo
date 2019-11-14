@@ -54,13 +54,6 @@ def test_only_full_dumps():
     #new_dlg.OK.Click()
     dlg.close()
 
-#тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
-def test_login_client():
-    app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
-    app1.window_().Edit2.type_keys("securos")
-    app1.window_().Авторизоваться.click()
-    #app1.window().print_control_identifiers()
-
 
 def test_delete_dumps():
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
@@ -115,7 +108,7 @@ def test_size_of_postgress_logs():
     time.sleep(2)
     patoolib.extract_archive(working_dirrectory, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
-    time.sleep(10)
+    time.sleep(15)
     total_size = 0
 
     for path, dirs, files in os.walk(path_to_postgress_logs):
@@ -126,6 +119,12 @@ def test_size_of_postgress_logs():
     assert total_size < 1000000
     shutil.rmtree(path_to_archive)
 
+#тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
+def test_login_client():
+    app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
+    app1.window_().Edit2.type_keys("securos")
+    app1.window_().Авторизоваться.click()
+    #app1.window().print_control_identifiers()
 
 
 """
