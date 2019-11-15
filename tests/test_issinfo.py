@@ -119,8 +119,11 @@ def test_size_of_postgress_logs():
     assert total_size < 1000000
     shutil.rmtree(path_to_archive)
 
+
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
+    # так как фикстура запускает перезапуск процесса (возможно, стоит над этим подумать и как-то изменить), нужен слип, чтобы вроцесс запустился
+    time.sleep(25)
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
     app1.window_().Edit2.type_keys("securos")
     app1.window_().Авторизоваться.click()
