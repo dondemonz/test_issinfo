@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def fix(request):
     os.system('taskkill /f /im securos_svc.exe')
     shutil.rmtree(r'C:\ProgramData\ISS\logs', ignore_errors=True)

@@ -11,7 +11,7 @@ import shutil
 import pywinauto
 import patoolib
 
-def test_only_full_dumps():
+def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     app = Application(backend="uia").start(path)
     time.sleep(2)
@@ -122,9 +122,9 @@ def test_size_of_postgress_logs():
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
-    # так как фикстура запускает перезапуск процесса (возможно, стоит над этим подумать и как-то изменить), нужен слип, чтобы вроцесс запустился
-    time.sleep(20)
+    # так как фикстура запускает перезапуск процесса (возможно, стоит над этим подумать и как-то изменить), нужен слип, чтобы процесс запустился
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
+    time.sleep(1)
     app1.window_().Edit2.type_keys("securos")
     app1.window_().Авторизоваться.click()
     #app1.window().print_control_identifiers()
