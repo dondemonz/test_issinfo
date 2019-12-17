@@ -122,6 +122,7 @@ def test_size_of_postgress_logs():
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
+    time.sleep(5)
     # так как фикстура запускает перезапуск процесса (возможно, стоит над этим подумать и как-то изменить), нужен слип, чтобы процесс запустился
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
     time.sleep(1)
