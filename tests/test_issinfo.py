@@ -20,6 +20,7 @@ def test_only_full_dumps(fix):
     dlg = app.window(title='ISSInfo')
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
+    time.sleep(2)
     assert value == working_dirrectory or value == working_dirrectory_jenkins
     #print("connected")
     dlg2 = dlg.child_window(auto_id="1009")
@@ -85,11 +86,12 @@ def test_additional_databases():
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
     dlg.Пуск.click()
-    time.sleep(250)
+    time.sleep(290)
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
+    #при запуске теста из пайчарма этот пункт зафейлится
     copyfile(working_dirrectory_jenkins, working_dirrectory)
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
