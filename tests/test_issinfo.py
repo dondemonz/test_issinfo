@@ -35,7 +35,7 @@ def test_only_full_dumps(fix):
     dlg.Пуск.click()
     #dlg.child_window(auto_id="1001").click()
     #dlg5 = dlg.child_window(auto_id="TitleBar")
-    time.sleep(250)
+    time.sleep(270)
     #dlg5.wait('visible', timeout=380)
     #dlg5.child_window(auto_id="1012").click()
     new_dlg = app.top_window()
@@ -66,7 +66,7 @@ def test_delete_dumps():
     copyfile(dump_to_copy, path_to_copy)
     time.sleep(5)
     dlg.Пуск.click()
-    time.sleep(350)
+    time.sleep(360)
     if os.path.isfile(path_to_copy):
         pytest.fail("File is not deleted")
     os.path.exists(path_to_copy)
