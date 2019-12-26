@@ -66,16 +66,15 @@ def test_delete_dumps():
     copyfile(dump_to_copy, path_to_copy)
     time.sleep(5)
     dlg.Пуск.click()
-    time.sleep(360)
-    if os.path.isfile(path_to_copy):
-        pytest.fail("File is not deleted")
-    os.path.exists(path_to_copy)
-    print("File is deleted")
-    time.sleep(1)
+    time.sleep(430)
     app = Application(backend="uia").connect(path=path)
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
+    if os.path.isfile(path_to_copy):
+        pytest.fail("File is not deleted")
+    os.path.exists(path_to_copy)
+    print("File is deleted")
 
 
 def test_additional_databases():
@@ -129,6 +128,7 @@ def test_login_client():
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
     time.sleep(1)
     app1.window_().Edit2.type_keys("securos")
+    time.sleep(1)
     app1.window_().Авторизоваться.click()
     #app1.window().print_control_identifiers()
 
