@@ -124,7 +124,6 @@ def test_size_of_postgress_logs():
     assert total_size < 1000000
     shutil.rmtree(path_to_archive)
 
-
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
     time.sleep(5)
