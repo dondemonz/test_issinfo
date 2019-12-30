@@ -35,10 +35,11 @@ def test_only_full_dumps(fix):
     dlg.Пуск.click()
     #dlg.child_window(auto_id="1001").click()
     #dlg5 = dlg.child_window(auto_id="TitleBar")
-    time.sleep(270)
+    time.sleep(280)
     #dlg5.wait('visible', timeout=380)
     #dlg5.child_window(auto_id="1012").click()
     new_dlg = app.top_window()
+    time.sleep(1)
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
     # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
@@ -78,6 +79,8 @@ def test_delete_dumps():
 
 
 def test_additional_databases():
+    if os.path.isfile(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z'):
+        os.remove(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
     # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
@@ -91,7 +94,8 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
-    copyfile(working_dirrectory_jenkins, working_dirrectory)
+    if os.path.isfile(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z'):
+        copyfile(working_dirrectory_jenkins, working_dirrectory)
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"input data that is passed to subprocess' stdin")
