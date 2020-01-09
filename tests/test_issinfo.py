@@ -12,10 +12,10 @@ import pywinauto
 import patoolib
 
 def test_only_full_dumps(fix):
-    time.sleep(5)
+    time.sleep(25)
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     app = Application(backend="uia").start(path)
-    time.sleep(5)
+    time.sleep(25)
     app.connect(title='ISSInfo')
     #app = Application().connect(title='Server Control Agent')
     dlg = app.window(title='ISSInfo')
