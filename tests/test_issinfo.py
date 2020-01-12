@@ -55,7 +55,7 @@ def test_only_full_dumps(fix):
     #new_dlg.OK.Click()
     dlg.close()
 
-
+'''
 def test_delete_dumps():
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
     #app = Application(backend="uia").connect(title='ISSInfo')
@@ -133,7 +133,7 @@ def test_login_client():
     time.sleep(1)
     app1.window_().Авторизоваться.click()
     #app1.window().print_control_identifiers()
-
+'''
 
 """
     PROCNAME = "ServerControlAgent.exe"
