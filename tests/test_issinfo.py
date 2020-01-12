@@ -56,7 +56,7 @@ def test_only_full_dumps(fix):
     #new_dlg.OK.Click()
     dlg.close()
 
-'''
+"""
 def test_delete_dumps():
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
     #app = Application(backend="uia").connect(title='ISSInfo')
@@ -77,6 +77,7 @@ def test_delete_dumps():
     os.path.exists(path_to_copy)
     print("File is deleted")
 
+"""
 
 def test_additional_databases():
     if os.path.isfile(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z'):
@@ -106,7 +107,7 @@ def test_additional_databases():
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
-
+"""
 def test_size_of_postgress_logs():
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
@@ -134,7 +135,7 @@ def test_login_client():
     time.sleep(1)
     app1.window_().Авторизоваться.click()
     #app1.window().print_control_identifiers()
-'''
+"""
 
 """
     PROCNAME = "ServerControlAgent.exe"
