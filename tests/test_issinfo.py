@@ -124,6 +124,7 @@ def test_size_of_postgress_logs():
             total_size += os.path.getsize(fp)
     print("Directory size: " + str(total_size))
     assert total_size < 1000000
+    time.sleep(1)
     #shutil.rmtree(path_to_archive)
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
