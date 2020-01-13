@@ -10,24 +10,7 @@ from parse import *
 import shutil
 import pywinauto
 import patoolib
-import ctypes, sys
 
-
-import subprocess as sp
-"""
-def test1():
-    #sp.check_call(['DoesnotNeedAdminPrivilege.exe'])
-    prog = sp.Popen(['runas', '/noprofile', r'/user:Vqa-2\root', r'C:\Program Files (x86)\ISS\SecurOS\tools\issinfo.exe'], stdin=sp.PIPE)
-    prog.stdin.write(b'P0stgres')
-    prog.communicate()
-    #ctypes.windll.shell32.ShellExecuteW(None, "runas", "issinfo.exe", r'C:\Program Files (x86)\ISS\SecurOS\tools', None, 1)
-    #ctypes.windll.shell32.ShellExecuteW(None, 'run', 'issinfo.exe', r'C:\\Program Files (x86)\\ISS\\SecurOS\\tools\\', None, 1)
-    #subprocess.call(['runas', '/user:Vqa-2/root', r'C:\Program Files (x86)\ISS\SecurOS\tools\issinfo.exe'])
-    time.sleep(10)
-    #prog = sp.Popen(['runas', '/noprofile', '/user:root', r'C:\Program Files (x86)\ISS\SecurOS\tools\issinfo.exe'], stdin=sp.PIPE)
-    #rog.stdin.write('P0stgres')
-    #prog.communicate()
-"""
 
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
@@ -62,13 +45,14 @@ def test_only_full_dumps(fix):
     time.sleep(1)
     # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
     try:
-        app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
+        #app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
+        app1 = Application().connect(title="ISSInfo")
     except pywinauto.findwindows.ElementNotFoundError:
         app1 = Application().connect(title="C:\\Devel\\test_issinfo\\tests")
         window = app1.window(title="C:\\Devel\\test_issinfo\\tests")
     else:
-        window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
-
+        #window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
+        window = app1.window(title="ISSInfo")
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
