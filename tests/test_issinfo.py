@@ -96,8 +96,8 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
-    if os.path.isfile(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z'):
-        copyfile(working_dirrectory_jenkins, working_dirrectory)
+    if os.path.isfile(r'c:\workspace\tests-issinfo\ISSInfo.7z'):
+        copyfile(working_dirrectory_jenkins_as_service, working_dirrectory)
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"input data that is passed to subprocess' stdin")
