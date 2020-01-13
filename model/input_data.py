@@ -9,3 +9,4 @@ path_to_7zip = r'C:\Program Files\7-Zip\7z.exe'
 path_to_archive = r'C:\Devel\test_issinfo\tests\archive'
 path_to_postgress_logs = r"C:\Devel\test_issinfo\tests\archive\ISSInfo\PostgresLogs"
 working_dirrectory_jenkins = r"C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z"
+working_dirrectory_jenkins_as_service = r"c:\workspace\tests-issinfo\ISSInfo.7z"

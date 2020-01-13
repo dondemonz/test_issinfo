@@ -39,7 +39,7 @@ def test_only_full_dumps(fix):
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
-    assert value == working_dirrectory or value == working_dirrectory_jenkins
+    assert value == working_dirrectory or value == working_dirrectory_jenkins or value == working_dirrectory_jenkins_as_service
     #print("connected")
     dlg2 = dlg.child_window(auto_id="1009")
     value2 = dlg2.get_toggle_state()
