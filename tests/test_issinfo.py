@@ -69,7 +69,7 @@ def test_delete_dumps():
     copyfile(dump_to_copy, path_to_copy)
     time.sleep(5)
     dlg.Пуск.click()
-    time.sleep(430)
+    time.sleep(400)
     app = Application(backend="uia").connect(path=path)
     new_dlg = app.top_window()
     new_dlg.OK.click()
@@ -81,8 +81,8 @@ def test_delete_dumps():
 
 
 def test_additional_databases():
-    if os.path.isfile(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z'):
-        os.remove(r'C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z')
+    if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
+        os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
     # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
