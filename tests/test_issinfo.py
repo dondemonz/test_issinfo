@@ -56,7 +56,7 @@ def test_only_full_dumps(fix):
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
-    #dlg.close()
+    dlg.close()
 
 
 def test_delete_dumps():
