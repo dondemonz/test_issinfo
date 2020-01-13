@@ -69,7 +69,7 @@ def test_delete_dumps():
     copyfile(dump_to_copy, path_to_copy)
     time.sleep(5)
     dlg.Пуск.click()
-    time.sleep(400)
+    time.sleep(380)
     app = Application(backend="uia").connect(path=path)
     new_dlg = app.top_window()
     new_dlg.OK.click()
