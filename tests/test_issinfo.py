@@ -90,7 +90,7 @@ def test_additional_databases():
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
     dlg.Пуск.click()
-    time.sleep(350)
+    time.sleep(330)
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
