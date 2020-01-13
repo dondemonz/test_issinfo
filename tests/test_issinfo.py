@@ -56,7 +56,7 @@ def test_only_full_dumps(fix):
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
-    dlg.close()
+    #dlg.close()
 
 
 def test_delete_dumps():
@@ -90,7 +90,7 @@ def test_additional_databases():
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
     dlg.Пуск.click()
-    time.sleep(330)
+    time.sleep(320)
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
