@@ -46,13 +46,13 @@ def test_only_full_dumps(fix):
     # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
     try:
         #app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
-        app1 = Application().connect(title="ISSInfo")
+        app1 = Application().connect(title=r"C:\workspace\tests-issinfo")
     except pywinauto.findwindows.ElementNotFoundError:
         app1 = Application().connect(title="C:\\Devel\\test_issinfo\\tests")
         window = app1.window(title="C:\\Devel\\test_issinfo\\tests")
     else:
         #window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
-        window = app1.window(title="ISSInfo")
+        window = app1.window(title=r"C:\workspace\tests-issinfo")
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
