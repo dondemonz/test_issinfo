@@ -11,7 +11,7 @@ import shutil
 import pywinauto
 import patoolib
 
-
+"""
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     app = Application(backend="uia").start(path)
@@ -78,7 +78,7 @@ def test_delete_dumps():
         pytest.fail("File is not deleted")
     os.path.exists(path_to_copy)
     print("File is deleted")
-
+"""
 
 def test_additional_databases():
     if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
