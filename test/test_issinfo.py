@@ -93,7 +93,7 @@ def test_delete_dumps():
     print("File is deleted")
 
 
-def test_additional_databases(FileName):
+def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
@@ -124,13 +124,14 @@ def test_additional_databases(FileName):
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
-    FileName.file_name = file_name
+    return file_name
 
-def test_size_of_postgress_logs(FileName):
+def test_size_of_postgress_logs(file_name):
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-    patoolib.extract_archive(FileName.file_name, outdir=path_to_archive)
+
+    patoolib.extract_archive(file_name, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
