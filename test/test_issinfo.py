@@ -55,26 +55,22 @@ def test_only_full_dumps(fix):
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
     # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
-    try:
-        #app1 = Application().connect(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
-        app1 = Application().connect(title=r"C:\workspace\tests-issinfo")
-    except pywinauto.findwindows.ElementNotFoundError:
-        app1 = Application().connect(title="C:\\Devel\\test_issinfo\\tests")
-        window = app1.window(title="C:\\Devel\\test_issinfo\\tests")
-    else:
-        #window = app1.window(title="C:\\Users\\root\\.jenkins\\workspace\\tests-issinfo")
-        window = app1.window(title=r"C:\workspace\tests-issinfo")
+    app1 = Application().connect(title=r"C:\workspace\tests-issinfo")
+    #except pywinauto.findwindows.ElementNotFoundError:
+    #app1 = Application().connect(title="C:\\Devel\\test_issinfo\\tests")
+    window = app1.window(title=r"C:\workspace\tests-issinfo")
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
-    f = os.path.isfile(file_name)
-    assert f == True
-    dlg.close()
     if os.path.isfile(file_name):
+        f = os.path.isfile(file_name)
+        assert f == True
         os.remove(file_name)
     else:
+        f = os.path.isfile(file_name1)
+        assert f == True
         os.remove(file_name1)
-
+    dlg.close()
 
 
 def test_delete_dumps():
