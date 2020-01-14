@@ -124,9 +124,7 @@ def test_additional_databases():
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
-    return file_name
 
-def test_size_of_postgress_logs(file_name):
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
@@ -136,9 +134,9 @@ def test_size_of_postgress_logs(file_name):
     time.sleep(15)
     total_size = 0
 
-    for path, dirs, files in os.walk(path_to_postgress_logs):
+    for path1, dirs, files in os.walk(path_to_postgress_logs):
         for f in files:
-            fp = os.path.join(path, f)
+            fp = os.path.join(path1, f)
             total_size += os.path.getsize(fp)
     print("Directory size: " + str(total_size))
     assert total_size < 1000000
