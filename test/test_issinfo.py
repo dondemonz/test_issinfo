@@ -6,12 +6,10 @@ from shutil import copyfile
 import pytest
 from subprocess import Popen, PIPE
 from parse import *
-#from pyunpack import Archive
 import shutil
 import pywinauto
 import patoolib
 import datetime as dt
-import win32com.client
 from datetime import timedelta
 
 
@@ -31,7 +29,7 @@ def test_only_full_dumps(fix):
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
-    assert value == working_dirrectory or value == working_dirrectory_jenkins or value == file_name or value == file_name1
+    assert value == working_dirrectory or value == file_name or value == file_name1
     #print("connected")
     #проверка чек-боксов
     dlg2 = dlg.child_window(auto_id="1009")
@@ -72,10 +70,21 @@ def test_only_full_dumps(fix):
     f = os.path.isfile(file_name)
     assert f == True
     dlg.close()
+    if os.path.isfile(file_name):
+        os.remove(file_name)
+    else:
+        os.remove(file_name1)
+
 
 
 def test_delete_dumps():
+    m = dt.datetime.now()
+    m1 = m + timedelta(seconds=1)
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
+    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
     #app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
     dlg2 = dlg.child_window(auto_id="1011")
@@ -93,7 +102,7 @@ def test_delete_dumps():
         pytest.fail("File is not deleted")
     os.path.exists(path_to_copy)
     print("File is deleted")
-
+    os.remove()
 
 def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
@@ -153,6 +162,10 @@ def test_additional_databases():
     assert total_size < 1000000
     time.sleep(1)
     shutil.rmtree(path_to_archive)
+    if os.path.isfile(file_name):
+        os.remove(file_name)
+    else:
+        os.remove(file_name1)
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
