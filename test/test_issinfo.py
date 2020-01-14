@@ -83,8 +83,8 @@ def test_delete_dumps():
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
     tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
+    file_name2 = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
+    file_name3 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
     #app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
     dlg2 = dlg.child_window(auto_id="1011")
@@ -102,7 +102,10 @@ def test_delete_dumps():
         pytest.fail("File is not deleted")
     os.path.exists(path_to_copy)
     print("File is deleted")
-
+    if os.path.isfile(file_name2):
+        os.remove(file_name2)
+    else:
+        os.remove(file_name3)
 
 def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
@@ -112,8 +115,8 @@ def test_additional_databases():
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
     tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
+    file_name4 = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
+    file_name5 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
      # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
     dlg2 = dlg.child_window(auto_id="1010")
@@ -126,10 +129,10 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
-    if os.path.isfile(file_name):
-        copyfile(file_name, working_dirrectory)
+    if os.path.isfile(file_name4):
+        copyfile(file_name4, working_dirrectory)
     else:
-        copyfile(file_name1, working_dirrectory)
+        copyfile(file_name5, working_dirrectory)
 
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -146,25 +149,32 @@ def test_additional_databases():
         os.makedirs(path_to_archive)
     time.sleep(2)
 
-    if os.path.isfile(file_name):
-        patoolib.extract_archive(file_name, outdir=path_to_archive)
+    if os.path.isfile(file_name4):
+        patoolib.extract_archive(file_name4, outdir=path_to_archive)
     else:
-        patoolib.extract_archive(file_name1, outdir=path_to_archive)
+        patoolib.extract_archive(file_name5, outdir=path_to_archive)
     time.sleep(15)
     total_size = 0
 
-    for path1, dirs, files in os.walk(path_to_postgress_logs+file_name+"\PostgresLogs"):
-        for f in files:
-            fp = os.path.join(path1, f)
-            total_size += os.path.getsize(fp)
+    if os.path.isfile(file_name4):
+        for path1, dirs, files in os.walk(path_to_postgress_logs+file_name4+"\PostgresLogs"):
+            for f in files:
+                fp = os.path.join(path1, f)
+                total_size += os.path.getsize(fp)
+    else:
+        for path1, dirs, files in os.walk(path_to_postgress_logs+file_name5+"\PostgresLogs"):
+            for f in files:
+                fp = os.path.join(path1, f)
+                total_size += os.path.getsize(fp)
+
     print("Directory size: " + str(total_size))
     assert total_size < 1000000
     time.sleep(1)
     shutil.rmtree(path_to_archive)
-    if os.path.isfile(file_name):
-        os.remove(file_name)
+    if os.path.isfile(file_name4):
+        os.remove(file_name4)
     else:
-        os.remove(file_name1)
+        os.remove(file_name5)
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
