@@ -14,14 +14,6 @@ import datetime as dt
 import win32com.client
 from datetime import timedelta
 
-def test1():
-    m = dt.datetime.now()
-    m1 = m + timedelta(seconds=1)
-    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
-    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
-    print(tm)
-    print(tm1)
-
 
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
@@ -106,11 +98,14 @@ def test_delete_dumps():
 def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
-    app = Application(backend="uia").start(path).connect(title='ISSInfo')
     m = dt.datetime.now()
+    m1 = m + timedelta(seconds=1)
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
+    app = Application(backend="uia").start(path).connect(title='ISSInfo')
     file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    # app = Application(backend="uia").connect(title='ISSInfo')
+    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
+     # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
     dlg2 = dlg.child_window(auto_id="1010")
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
@@ -124,6 +119,9 @@ def test_additional_databases():
     #при запуске теста из пайчарма этот пункт зафейлится
     if os.path.isfile(file_name):
         copyfile(file_name, working_dirrectory)
+    else:
+        copyfile(file_name1, working_dirrectory)
+
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"input data that is passed to subprocess' stdin")
@@ -139,7 +137,10 @@ def test_additional_databases():
         os.makedirs(path_to_archive)
     time.sleep(2)
 
-    patoolib.extract_archive(file_name, outdir=path_to_archive)
+    if os.path.isfile(file_name):
+        patoolib.extract_archive(file_name, outdir=path_to_archive)
+    else:
+        patoolib.extract_archive(file_name1, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
