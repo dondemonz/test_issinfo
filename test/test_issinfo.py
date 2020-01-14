@@ -16,11 +16,11 @@ import win32com.client
 
 
 def test_only_full_dumps(fix):
+    # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
+    app = Application(backend="uia").start(path)
     m = dt.datetime.now()
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
     file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
-    app = Application(backend="uia").start(path)
     time.sleep(10)
     app.connect(title='ISSInfo')
     #app = Application().connect(title='Server Control Agent')
@@ -93,12 +93,12 @@ def test_delete_dumps():
 
 
 def test_additional_databases():
-    m = dt.datetime.now()
-    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
+    m = dt.datetime.now()
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
     # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
     dlg2 = dlg.child_window(auto_id="1010")
