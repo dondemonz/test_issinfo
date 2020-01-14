@@ -12,16 +12,26 @@ import pywinauto
 import patoolib
 import datetime as dt
 import win32com.client
+from datetime import timedelta
 
-
+def test1():
+    m = dt.datetime.now()
+    m1 = m + timedelta(seconds=1)
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
+    print(tm)
+    print(tm1)
 
 
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
-    app = Application(backend="uia").start(path)
     m = dt.datetime.now()
+    m1 = m + timedelta(seconds=1)
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
+    app = Application(backend="uia").start(path)
     file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
+    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
     time.sleep(10)
     app.connect(title='ISSInfo')
     #app = Application().connect(title='Server Control Agent')
@@ -29,7 +39,7 @@ def test_only_full_dumps(fix):
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
-    assert value == working_dirrectory or value == working_dirrectory_jenkins or value == file_name
+    assert value == working_dirrectory or value == working_dirrectory_jenkins or value == file_name or value == file_name1
     #print("connected")
     #проверка чек-боксов
     dlg2 = dlg.child_window(auto_id="1009")
