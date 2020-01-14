@@ -10,9 +10,15 @@ from parse import *
 import shutil
 import pywinauto
 import patoolib
+import datetime as dt
+import win32com.client
+fn = None
 
 
 def test_only_full_dumps(fix):
+    m = dt.datetime.now()
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     app = Application(backend="uia").start(path)
     time.sleep(10)
@@ -24,6 +30,7 @@ def test_only_full_dumps(fix):
     time.sleep(2)
     assert value == working_dirrectory or value == working_dirrectory_jenkins or value == working_dirrectory_jenkins_as_service
     #print("connected")
+    #проверка чек-боксов
     dlg2 = dlg.child_window(auto_id="1009")
     value2 = dlg2.get_toggle_state()
     assert value2 == 1
@@ -33,6 +40,9 @@ def test_only_full_dumps(fix):
     dlg4 = dlg.child_window(auto_id="1010")
     value4 = dlg4.get_toggle_state()
     assert value4 == 0
+    #изменение имени файла с нового с именем компа и датой на старое ISSInfo.7z для удобства, возможно позже надо будет сделать проверку
+    dlg5 = dlg.child_window(auto_id="1003")
+    #dlg5.print_ctrl_ids
     dlg.Пуск.click()
     #dlg.child_window(auto_id="1001").click()
     #dlg5 = dlg.child_window(auto_id="TitleBar")
@@ -56,6 +66,8 @@ def test_only_full_dumps(fix):
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
+    f = os.path.isfile(file_name)
+    assert f == "True"
     dlg.close()
 
 
@@ -81,8 +93,12 @@ def test_delete_dumps():
 
 
 def test_additional_databases():
-    if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
-        os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
+    m = dt.datetime.now()
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
+    file_name = fn
+    #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
+    #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
     # app = Application(backend="uia").connect(title='ISSInfo')
     dlg = app.window(title='ISSInfo')
@@ -96,8 +112,8 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
-    if os.path.isfile(r'c:\workspace\tests-issinfo\ISSInfo.7z'):
-        copyfile(working_dirrectory_jenkins_as_service, working_dirrectory)
+    if os.path.isfile(file_name):
+        copyfile(file_name, working_dirrectory)
     # проверка, есть ли доп. база postgres в issinfo
     p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate(b"input data that is passed to subprocess' stdin")
@@ -113,7 +129,7 @@ def test_size_of_postgress_logs():
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-    patoolib.extract_archive(working_dirrectory_jenkins_as_service, outdir=path_to_archive)
+    patoolib.extract_archive(fn, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
