@@ -92,7 +92,7 @@ def test_delete_dumps():
     print("File is deleted")
 
 
-def test_additional_databases():
+def test_additional_databases(file_name):
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
