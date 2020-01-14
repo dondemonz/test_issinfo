@@ -29,7 +29,7 @@ def test_only_full_dumps(fix):
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
-    assert value == working_dirrectory or value == file_name or value == file_name1
+    assert value == file_name or value == file_name1
     #print("connected")
     #проверка чек-боксов
     dlg2 = dlg.child_window(auto_id="1009")
@@ -102,7 +102,7 @@ def test_delete_dumps():
         pytest.fail("File is not deleted")
     os.path.exists(path_to_copy)
     print("File is deleted")
-    os.remove()
+
 
 def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
@@ -150,11 +150,10 @@ def test_additional_databases():
         patoolib.extract_archive(file_name, outdir=path_to_archive)
     else:
         patoolib.extract_archive(file_name1, outdir=path_to_archive)
-    #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
 
-    for path1, dirs, files in os.walk(path_to_postgress_logs):
+    for path1, dirs, files in os.walk(path_to_postgress_logs+file_name+"\PostgresLogs"):
         for f in files:
             fp = os.path.join(path1, f)
             total_size += os.path.getsize(fp)
