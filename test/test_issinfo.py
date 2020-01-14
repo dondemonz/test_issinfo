@@ -67,7 +67,7 @@ def test_only_full_dumps(fix):
     window.close()
     #new_dlg.OK.Click()
     f = os.path.isfile(file_name)
-    assert f == "True"
+    assert f == True
     dlg.close()
 
 
