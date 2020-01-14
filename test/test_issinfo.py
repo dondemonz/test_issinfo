@@ -12,7 +12,7 @@ import pywinauto
 import patoolib
 import datetime as dt
 import win32com.client
-fn = None
+fn = ""
 
 
 def test_only_full_dumps(fix):
