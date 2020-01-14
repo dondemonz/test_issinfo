@@ -15,6 +15,7 @@ import win32com.client
 
 
 
+
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     app = Application(backend="uia").start(path)
@@ -92,7 +93,7 @@ def test_delete_dumps():
     print("File is deleted")
 
 
-def test_additional_databases(file_name):
+def test_additional_databases(FileName):
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
@@ -123,13 +124,13 @@ def test_additional_databases(file_name):
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
-    return file_name
+    FileName.file_name = file_name
 
-def test_size_of_postgress_logs(file_name):
+def test_size_of_postgress_logs(FileName):
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-    patoolib.extract_archive(file_name, outdir=path_to_archive)
+    patoolib.extract_archive(FileName.file_name, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
