@@ -12,7 +12,7 @@ import pywinauto
 import patoolib
 import datetime as dt
 import win32com.client
-fn = ""
+
 
 
 def test_only_full_dumps(fix):
@@ -96,7 +96,6 @@ def test_additional_databases():
     m = dt.datetime.now()
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
     file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name = fn
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     app = Application(backend="uia").start(path).connect(title='ISSInfo')
@@ -124,12 +123,13 @@ def test_additional_databases():
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
+    return file_name
 
-def test_size_of_postgress_logs():
+def test_size_of_postgress_logs(file_name):
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-    patoolib.extract_archive(fn, outdir=path_to_archive)
+    patoolib.extract_archive(file_name, outdir=path_to_archive)
     #Archive(working_dirrectory).extractall(path_to_archive)
     time.sleep(15)
     total_size = 0
