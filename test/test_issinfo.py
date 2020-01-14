@@ -129,17 +129,27 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
+    """
     if os.path.isfile(file_name4):
         copyfile(file_name4, working_dirrectory)
     else:
         copyfile(file_name5, working_dirrectory)
+    """
 
     # проверка, есть ли доп. база postgres в issinfo
-    p = Popen(path_to_7zip + ' l ' + working_dirrectory, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    output, err = p.communicate(b"input data that is passed to subprocess' stdin")
-    rc = p.returncode
-    # d - список всех файлов в issinfo
-    d = output.decode('utf-8')
+    if os.path.isfile(file_name4):
+        p = Popen(path_to_7zip + ' l ' + file_name4, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+        rc = p.returncode
+        # d - список всех файлов в issinfo
+        d = output.decode('utf-8')
+    else:
+        p = Popen(path_to_7zip + ' l ' + file_name5, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+        rc = p.returncode
+        # d - список всех файлов в issinfo
+        d = output.decode('utf-8')
+
     if not "protocol.sql" in d:
         pytest.fail("protocol.sql is not in issinfo")
     else:
