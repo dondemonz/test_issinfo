@@ -61,8 +61,8 @@ def test_only_full_dumps(fix):
     # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
     #app1 = Application().connect(title="SystemInfo Utility")
     #except pywinauto.findwindows.ElementNotFoundError:
-    app = Application().connect(title=r"C:\Devel\test_issinfo\test")
-    window = app.window(title=r"C:\Devel\test_issinfo\test")
+    app = Application().connect(title=r"C:\workspace\tests-issinfo")
+    window = app.window(title=r"C:\workspace\tests-issinfo")
     time.sleep(1)
     window.close()
     #new_dlg.OK.Click()
