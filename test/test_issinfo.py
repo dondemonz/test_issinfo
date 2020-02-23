@@ -207,9 +207,9 @@ def check_size_of_postgres_logs(file_name, file_name1, file_name2, file_name3, t
 def extract_files_from_issinfo(file_name, file_name1, file_name2, file_name3):
     if os.path.isfile(file_name):
         patoolib.extract_archive(file_name, outdir=path_to_archive)
-    if os.path.isfile(file_name1):
+    elif os.path.isfile(file_name1):
         patoolib.extract_archive(file_name1, outdir=path_to_archive)
-    if os.path.isfile(file_name2):
+    elif os.path.isfile(file_name2):
         patoolib.extract_archive(file_name2, outdir=path_to_archive)
     else:
         patoolib.extract_archive(file_name3, outdir=path_to_archive)
