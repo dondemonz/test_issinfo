@@ -119,10 +119,11 @@ def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     m = dt.datetime.now()
+    app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
     m1 = m + timedelta(seconds=1)
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
     tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
-    app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
+    #app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
     file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
     file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
     file_name2 = working_dirrectory+pc_name+tm+".7z"
@@ -133,7 +134,7 @@ def test_additional_databases():
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
     dlg.Пуск.click()
-    time.sleep(320)
+    time.sleep(350)
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
@@ -214,6 +215,7 @@ def extract_files_from_issinfo(file_name, file_name1, file_name2, file_name3):
         patoolib.extract_archive(file_name2, outdir=path_to_archive)
     else:
         patoolib.extract_archive(file_name3, outdir=path_to_archive)
+
 
 
 def check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name3):
