@@ -70,25 +70,6 @@ def test_only_full_dumps(fix):
     dlg.close()
 
 
-def delete_issinfo(file_name, file_name1, file_name2, file_name3):
-    if os.path.isfile(file_name):
-        f = os.path.isfile(file_name)
-        assert f == True
-        os.remove(file_name)
-    elif os.path.isfile(file_name1):
-        f = os.path.isfile(file_name1)
-        assert f == True
-        os.remove(file_name1)
-    elif os.path.isfile(file_name2):
-        f = os.path.isfile(file_name2)
-        assert f == True
-        os.remove(file_name2)
-    else:
-        f = os.path.isfile(file_name3)
-        assert f == True
-        os.remove(file_name3)
-
-
 def test_delete_dumps():
     m = dt.datetime.now()
     m1 = m + timedelta(seconds=1)
@@ -113,7 +94,27 @@ def test_delete_dumps():
     new_dlg.OK.click()
     dlg.close()
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
+    
 """
+def delete_issinfo(file_name, file_name1, file_name2, file_name3):
+    if os.path.isfile(file_name):
+        f = os.path.isfile(file_name)
+        assert f == True
+        os.remove(file_name)
+    elif os.path.isfile(file_name1):
+        f = os.path.isfile(file_name1)
+        assert f == True
+        os.remove(file_name1)
+    elif os.path.isfile(file_name2):
+        f = os.path.isfile(file_name2)
+        assert f == True
+        os.remove(file_name2)
+    else:
+        f = os.path.isfile(file_name3)
+        assert f == True
+        os.remove(file_name3)
+
+
 def test_additional_databases():
     #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
