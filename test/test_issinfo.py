@@ -1,5 +1,4 @@
 from pywinauto.application import Application
-from pywinauto import keyboard
 from model.input_data import *
 import time
 import os
@@ -8,7 +7,6 @@ import pytest
 from subprocess import Popen, PIPE
 from parse import *
 import shutil
-import pywinauto
 import patoolib
 import datetime as dt
 from datetime import timedelta
@@ -17,14 +15,8 @@ from datetime import timedelta
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     m = dt.datetime.now()
-    m1 = m + timedelta(seconds=1)
-    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
-    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
     app = Application(backend="uia").start(path)
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
-    file_name2 = working_dirrectory+pc_name+tm+".7z"
-    file_name3 = working_dirrectory+pc_name+tm1+".7z"
+    file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
     time.sleep(10)
     app.connect(title='SystemInfo Utility')
     #app = Application().connect(title='Server Control Agent')
@@ -72,15 +64,8 @@ def test_only_full_dumps(fix):
 
 def test_delete_dumps():
     m = dt.datetime.now()
-    m1 = m + timedelta(seconds=1)
-    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
-    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
     app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
-    file_name2 = working_dirrectory+pc_name+tm+".7z"
-    file_name3 = working_dirrectory+pc_name+tm1+".7z"
-    #app = Application(backend="uia").connect(title='ISSInfo')
+    file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
     dlg = app.window(title='SystemInfo Utility')
     dlg2 = dlg.child_window(auto_id="1011")
     #как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
@@ -94,25 +79,6 @@ def test_delete_dumps():
     new_dlg.OK.click()
     dlg.close()
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
-    
-
-def delete_issinfo(file_name, file_name1, file_name2, file_name3):
-    if os.path.isfile(file_name):
-        f = os.path.isfile(file_name)
-        assert f == True
-        os.remove(file_name)
-    elif os.path.isfile(file_name1):
-        f = os.path.isfile(file_name1)
-        assert f == True
-        os.remove(file_name1)
-    elif os.path.isfile(file_name2):
-        f = os.path.isfile(file_name2)
-        assert f == True
-        os.remove(file_name2)
-    else:
-        f = os.path.isfile(file_name3)
-        assert f == True
-        os.remove(file_name3)
 
 
 def test_additional_databases():
@@ -120,15 +86,7 @@ def test_additional_databases():
     #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     m = dt.datetime.now()
     app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
-    m1 = m + timedelta(seconds=1)
-    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
-    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
-    #app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
-    file_name = working_dirrectory_jenkins_as_service+pc_name+tm+".7z"
-    file_name1 = working_dirrectory_jenkins_as_service+pc_name+tm1+".7z"
-    file_name2 = working_dirrectory+pc_name+tm+".7z"
-    file_name3 = working_dirrectory+pc_name+tm1+".7z"
-     # app = Application(backend="uia").connect(title='ISSInfo')
+    file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
     dlg = app.window(title='SystemInfo Utility')
     dlg2 = dlg.child_window(auto_id="1010")
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
@@ -138,15 +96,6 @@ def test_additional_databases():
     new_dlg = app.top_window()
     new_dlg.OK.click()
     dlg.close()
-    #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
-    #при запуске теста из пайчарма этот пункт зафейлится
-
-    """
-    if os.path.isfile(file_name4):
-        copyfile(file_name4, working_dirrectory)
-    else:
-        copyfile(file_name5, working_dirrectory)
-    """
 
     d = check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name3)
 
@@ -184,6 +133,35 @@ def test_login_client():
     time.sleep(1)
     app1.window().Авторизоваться.click()
     #app1.window().print_control_identifiers()
+
+def set_file_name_with_datetime(m):
+    m1 = m + timedelta(seconds=1)
+    tm = m.strftime("%Y.%m.%d_%H.%M.%S")
+    tm1 = m1.strftime("%Y.%m.%d_%H.%M.%S")
+    file_name = working_dirrectory_jenkins_as_service + pc_name + tm + ".7z"
+    file_name1 = working_dirrectory_jenkins_as_service + pc_name + tm1 + ".7z"
+    file_name2 = working_dirrectory + pc_name + tm + ".7z"
+    file_name3 = working_dirrectory + pc_name + tm1 + ".7z"
+    return file_name, file_name1, file_name2, file_name3
+
+
+def delete_issinfo(file_name, file_name1, file_name2, file_name3):
+    if os.path.isfile(file_name):
+        f = os.path.isfile(file_name)
+        assert f == True
+        os.remove(file_name)
+    elif os.path.isfile(file_name1):
+        f = os.path.isfile(file_name1)
+        assert f == True
+        os.remove(file_name1)
+    elif os.path.isfile(file_name2):
+        f = os.path.isfile(file_name2)
+        assert f == True
+        os.remove(file_name2)
+    else:
+        f = os.path.isfile(file_name3)
+        assert f == True
+        os.remove(file_name3)
 
 def check_size_of_postgres_logs(file_name, file_name1, file_name2, file_name3, total_size):
     if os.path.isfile(file_name):
@@ -259,4 +237,16 @@ def check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name
         # check whether the process name matches
         if proc.name() == PROCNAME:
             proc.kill()
+"""
+"""
+    #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
+    ненужный кусок, который был закомментирован в тесте про дополнительные базы, скорее всего надо удалить.
+    if os.path.isfile(file_name):
+        copyfile(file_name, working_dirrectory)
+    if os.path.isfile(file_name1):
+        copyfile(file_name1, working_dirrectory)
+    if os.path.isfile(file_name2):
+        copyfile(file_name2, working_dirrectory)
+    else:
+        copyfile(file_name3, working_dirrectory)
 """
