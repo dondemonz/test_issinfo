@@ -177,6 +177,7 @@ def test_login_client():
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
     time.sleep(1)
     app1.window().Edit2.set_focus()
+    time.sleep(1)
     app1.window().Edit2.type_keys("securos")
     time.sleep(1)
     app1.window().Авторизоваться.click()
