@@ -76,7 +76,7 @@ def test_additional_databases():
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
     dlg.Пуск.click()
-    time.sleep(350)
+    time.sleep(340)
     close_final_dialogs(app, dlg)
     d = check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name3)
     #если нет файла БД специально фейлит тест
@@ -97,6 +97,7 @@ def test_additional_databases():
     shutil.rmtree(path_to_archive)
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
 
+"""
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
     time.sleep(5)
@@ -108,7 +109,7 @@ def test_login_client():
     app1.window().Edit2.type_keys("securos")
     time.sleep(1)
     app1.window().Авторизоваться.click()
-
+"""
 def close_final_dialogs(app, dlg):
     new_dlg = app.top_window()
     new_dlg.OK.click()
