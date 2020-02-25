@@ -13,7 +13,7 @@ import patoolib
 import datetime as dt
 from datetime import timedelta
 
-"""
+
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     m = dt.datetime.now()
@@ -140,14 +140,14 @@ def test_additional_databases():
     dlg.close()
     #pycharm запускает issinfo из одной дирректории, дженкинс из другой. Как объединить пока не знаю, пока решил просто копировать и работать по старому.
     #при запуске теста из пайчарма этот пункт зафейлится
+
     """
-"""
     if os.path.isfile(file_name4):
         copyfile(file_name4, working_dirrectory)
     else:
         copyfile(file_name5, working_dirrectory)
-"""
-"""
+    """
+
     d = check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name3)
 
     if not "protocol.sql" in d:
@@ -170,7 +170,7 @@ def test_additional_databases():
     time.sleep(1)
     shutil.rmtree(path_to_archive)
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
-"""
+
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
