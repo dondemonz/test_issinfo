@@ -176,7 +176,7 @@ def test_login_client():
     # так как фикстура запускает перезапуск процесса (возможно, стоит над этим подумать и как-то изменить), нужен слип, чтобы процесс запустился
     app1 = Application(backend="uia").connect(title="SecurOS Enterprise")
     time.sleep(1)
-    app1.window().Edit2.set_focus()
+    app1.window().Edit2.click_input()
     time.sleep(1)
     app1.window().Edit2.type_keys("securos")
     time.sleep(1)
