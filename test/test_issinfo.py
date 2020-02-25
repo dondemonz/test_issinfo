@@ -19,14 +19,12 @@ def test_only_full_dumps(fix):
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
     time.sleep(10)
     app.connect(title='SystemInfo Utility')
-    #app = Application().connect(title='Server Control Agent')
     dlg = app.window(title='SystemInfo Utility')
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
     assert value == file_name or value == file_name1 or value == file_name2 or value == file_name3
-    #print("connected")
-    #проверка чек-боксов
+    #проверка чек-боксов по дефолту
     dlg2 = dlg.child_window(auto_id="1009")
     value2 = dlg2.get_toggle_state()
     assert value2 == 1
@@ -37,27 +35,17 @@ def test_only_full_dumps(fix):
     value4 = dlg4.get_toggle_state()
     assert value4 == 0
     time.sleep(3)
-    #изменение имени файла с нового с именем компа и датой на старое ISSInfo.7z для удобства, возможно позже надо будет сделать проверку
-    #dlg5 = dlg.child_window(auto_id="1003")
-    #dlg5.print_ctrl_ids
     dlg.Пуск.click()
-    #dlg.child_window(auto_id="1001").click()
-    #dlg5 = dlg.child_window(auto_id="TitleBar")
     time.sleep(270)
-    #dlg5.wait('visible', timeout=380)
-    #dlg5.child_window(auto_id="1012").click()
     new_dlg = app.top_window()
     time.sleep(1)
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
-    # разные воркспейсы у дженкинса и пайчарма осложняют жизнь
-    #app1 = Application().connect(title="SystemInfo Utility")
-    #except pywinauto.findwindows.ElementNotFoundError:
+    # воркспейс для дженкинса, в пайчареме надо заменить на devel\
     app = Application().connect(title=r"C:\workspace\tests-issinfo")
     window = app.window(title=r"C:\workspace\tests-issinfo")
     time.sleep(1)
     window.close()
-    #new_dlg.OK.Click()
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
     dlg.close()
 
@@ -75,15 +63,11 @@ def test_delete_dumps():
     dlg.Пуск.click()
     time.sleep(380)
     app = Application(backend="uia").connect(path=path)
-    new_dlg = app.top_window()
-    new_dlg.OK.click()
-    dlg.close()
+    close_final_dialogs(app, dlg)
+    #внутри удаления идет проверка на существование файла, возможно стоит ее вытащить сюда, но не факт.
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
 
-
 def test_additional_databases():
-    #if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
-    #    os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
     m = dt.datetime.now()
     app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
@@ -93,33 +77,25 @@ def test_additional_databases():
     dlg2.click()
     dlg.Пуск.click()
     time.sleep(350)
-    new_dlg = app.top_window()
-    new_dlg.OK.click()
-    dlg.close()
-
+    close_final_dialogs(app, dlg)
     d = check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name3)
-
+    #если нет файла БД специально фейлит тест
     if not "protocol.sql" in d:
         pytest.fail("protocol.sql is not in issinfo")
     else:
         print("protocol.sql is in issinfo")
-
     if not os.path.exists(path_to_archive):
         os.makedirs(path_to_archive)
     time.sleep(2)
-
     extract_files_from_issinfo(file_name, file_name1, file_name2, file_name3)
     time.sleep(15)
     total_size = 0
-
     total_size = check_size_of_postgres_logs(file_name, file_name1, file_name2, file_name3, total_size)
-
-    print("Directory size: " + str(total_size))
+    #print("Directory size: " + str(total_size))
     assert total_size < 1000000
     time.sleep(1)
     shutil.rmtree(path_to_archive)
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
-
 
 #тест сделан для того, чтобы другие тесты не ломались без залогиненного клиента
 def test_login_client():
@@ -132,7 +108,11 @@ def test_login_client():
     app1.window().Edit2.type_keys("securos")
     time.sleep(1)
     app1.window().Авторизоваться.click()
-    #app1.window().print_control_identifiers()
+
+def close_final_dialogs(app, dlg):
+    new_dlg = app.top_window()
+    new_dlg.OK.click()
+    dlg.close()
 
 def set_file_name_with_datetime(m):
     m1 = m + timedelta(seconds=1)
@@ -143,7 +123,6 @@ def set_file_name_with_datetime(m):
     file_name2 = working_dirrectory + pc_name + tm + ".7z"
     file_name3 = working_dirrectory + pc_name + tm1 + ".7z"
     return file_name, file_name1, file_name2, file_name3
-
 
 def delete_issinfo(file_name, file_name1, file_name2, file_name3):
     if os.path.isfile(file_name):
@@ -249,4 +228,16 @@ def check_if_db_postgres_in_issinfo(file_name, file_name1, file_name2, file_name
         copyfile(file_name2, working_dirrectory)
     else:
         copyfile(file_name3, working_dirrectory)
+"""
+"""
+    #except pywinauto.findwindows.ElementNotFoundError:
+"""
+
+"""
+пример удаления файлов 
+    if os.path.isfile(r'C:\workspace\tests-issinfo\ISSInfo.7z'):
+        os.remove(r'C:\workspace\tests-issinfo\ISSInfo.7z')
+"""
+"""
+    #app1.window().print_control_identifiers()
 """
