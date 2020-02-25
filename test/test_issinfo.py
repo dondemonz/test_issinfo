@@ -13,7 +13,7 @@ import patoolib
 import datetime as dt
 from datetime import timedelta
 
-"""
+
 def test_only_full_dumps(fix):
     # pycharm должен быть запущен от имени администратора, иначе не может запустить процесс
     m = dt.datetime.now()
@@ -95,7 +95,7 @@ def test_delete_dumps():
     dlg.close()
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
     
-"""
+
 def delete_issinfo(file_name, file_name1, file_name2, file_name3):
     if os.path.isfile(file_name):
         f = os.path.isfile(file_name)
