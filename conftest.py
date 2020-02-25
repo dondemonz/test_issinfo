@@ -5,7 +5,7 @@ import shutil
 from pywinauto.application import Application
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def fix(request):
     os.system('taskkill /f /im securos_svc.exe')
     shutil.rmtree(r'C:\ProgramData\ISS\logs', ignore_errors=True)
