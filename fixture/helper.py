@@ -4,6 +4,7 @@ import os
 import patoolib
 from subprocess import Popen, PIPE
 
+#пока вынес просто методы, когда-нибудь, возможно, оформлю фикстуру
 def set_file_name_with_datetime(m):
     m1 = m + timedelta(seconds=1)
     tm = m.strftime("%Y.%m.%d_%H.%M.%S")
