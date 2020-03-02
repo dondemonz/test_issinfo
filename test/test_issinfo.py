@@ -14,7 +14,7 @@ def test_only_full_dumps(fix):
     m = dt.datetime.now()
     app = Application(backend="uia").start(path)
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
-    time.sleep(10)
+    time.sleep(2)
     app.connect(title='SystemInfo Utility')
     dlg = app.window(title='SystemInfo Utility')
     dlg1 = dlg.child_window(auto_id="1003")
@@ -33,7 +33,7 @@ def test_only_full_dumps(fix):
     assert value4 == 0
     time.sleep(3)
     dlg.Пуск.click()
-    time.sleep(270)
+    time.sleep(290)
     new_dlg = app.top_window()
     time.sleep(1)
     new_dlg.Открытьдиректорию.click()
@@ -60,7 +60,7 @@ def test_delete_dumps():
     copyfile(dump_to_copy, path_to_copy)
     time.sleep(5)
     dlg.Пуск.click()
-    time.sleep(380)
+    time.sleep(390)
     app = Application(backend="uia").connect(path=path)
     close_final_dialogs(app, dlg)
     #внутри удаления идет проверка на существование файла, возможно стоит ее вытащить сюда, но не факт.
@@ -95,6 +95,7 @@ def test_additional_databases():
     time.sleep(1)
     shutil.rmtree(path_to_archive)
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
+    time.sleep(1)
 
 
 
