@@ -66,7 +66,7 @@ def test_delete_dumps():
     #внутри удаления идет проверка на существование файла, возможно стоит ее вытащить сюда, но не факт.
     delete_issinfo(file_name, file_name1, file_name2, file_name3)
 
-def test_additional_databases():
+def test_additional_databases(fix):
     m = dt.datetime.now()
     app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
