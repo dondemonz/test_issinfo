@@ -15,8 +15,8 @@ def test_only_full_dumps(fix):
     app = Application(backend="uia").start(path)
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
     time.sleep(2)
-    app.connect(title='SystemInfo Utility')
-    dlg = app.window(title='SystemInfo Utility')
+    app.connect(title=title)
+    dlg = app.window(title=title)
     dlg1 = dlg.child_window(auto_id="1003")
     value = dlg1.get_value()
     time.sleep(2)
@@ -39,8 +39,8 @@ def test_only_full_dumps(fix):
     new_dlg.Открытьдиректорию.click()
     time.sleep(1)
     # воркспейс для дженкинса, в пайчареме надо заменить на devel\
-    app = Application().connect(title=r"C:\workspace\tests-issinfo")
-    window = app.window(title=r"C:\workspace\tests-issinfo")
+    app = Application().connect(title=title_window)
+    window = app.window(title=title_window)
     #app = Application().connect(title=r"C:\Devel\test_issinfo\test")
     #window = app.window(title=r"C:\Devel\test_issinfo\test")
     time.sleep(1)
@@ -51,9 +51,9 @@ def test_only_full_dumps(fix):
 
 def test_delete_dumps():
     m = dt.datetime.now()
-    app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
+    app = Application(backend="uia").start(path).connect(title=title)
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
-    dlg = app.window(title='SystemInfo Utility')
+    dlg = app.window(title=title)
     dlg2 = dlg.child_window(auto_id="1011")
     #как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
@@ -68,9 +68,9 @@ def test_delete_dumps():
 
 def test_additional_databases(fix):
     m = dt.datetime.now()
-    app = Application(backend="uia").start(path).connect(title='SystemInfo Utility')
+    app = Application(backend="uia").start(path).connect(title=title)
     file_name, file_name1, file_name2, file_name3 = set_file_name_with_datetime(m)
-    dlg = app.window(title='SystemInfo Utility')
+    dlg = app.window(title=title)
     dlg2 = dlg.child_window(auto_id="1010")
     # как именно выделять чек-бокс, не разобрался. Просто кликаю, ставит\снимает.
     dlg2.click()
