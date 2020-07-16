@@ -12,5 +12,5 @@ path_to_postgress_logs = r'C:\workspace\tests-issinfo\archive'
 #working_dirrectory_jenkins = r"C:\Users\root\.jenkins\workspace\tests-issinfo\ISSInfo.7z"
 working_dirrectory_jenkins_as_service = r"C:\Jenkins\workspace\tests-issinfo\SystemInfo_"
 title = 'SystemInfo Utility'
-#title_window = r"C:\Jenkins\workspace\tests-issinfo"
-title_window = r"C:\Devel\test_issinfo\test"
+title_window = r"C:\Jenkins\workspace\tests-issinfo"
+#title_window = r"C:\Devel\test_issinfo\test"
